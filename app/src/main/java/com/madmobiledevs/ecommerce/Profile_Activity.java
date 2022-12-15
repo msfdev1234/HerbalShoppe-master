@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -26,9 +27,13 @@ public class Profile_Activity extends AppCompatActivity {
 
     TextView name_TxtVw, phone_TxtVw;
     String userPhoneKey;
+
+
     String name;
 
     RelativeLayout logout_Btn, orders_Btn, contactUs_Btn;
+
+    ImageView back_Image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +45,8 @@ public class Profile_Activity extends AppCompatActivity {
         loadingDialog = new LoadingDialog(this);
         loadingDialog.startLoadingDialog();
 
+
+
         name_TxtVw = findViewById(R.id.name_Profile);
         phone_TxtVw = findViewById(R.id.phoneNumber_Profile);
         logout_Btn = findViewById(R.id.logOut_Btn);
@@ -48,6 +55,7 @@ public class Profile_Activity extends AppCompatActivity {
 
         orders_Btn = findViewById(R.id.orders_Btn);
 
+        back_Image = findViewById(R.id.back_Btn_ImgView_Profile);
 
         userPhoneKey = Paper.book().read(Prevalent.UserPhoneKey);
 
@@ -55,11 +63,18 @@ public class Profile_Activity extends AppCompatActivity {
             geAndSetName();
         }
 
+        back_Image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
         contactUs_Btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent=new Intent(Profile_Activity.this,contactUsActivity.class);
-//                startActivity(intent);
+                Intent intent=new Intent(Profile_Activity.this,supportActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -78,7 +93,7 @@ public class Profile_Activity extends AppCompatActivity {
         orders_Btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(Profile_Activity.this,UserOrdersViewActivity.class);
+                Intent intent=new Intent(Profile_Activity.this,OrdersActivity.class);
                 startActivity(intent);
             }
         });
@@ -94,7 +109,7 @@ public class Profile_Activity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String userNm = dataSnapshot.getValue().toString();
                 name_TxtVw.setText(userNm);
-                phone_TxtVw.setText(Paper.book().read(Prevalent.UserPhoneKey).toString());
+                phone_TxtVw.setText("+"+Paper.book().read(Prevalent.UserPhoneKey).toString());
                 loadingDialog.dismissDialog();
             }
 
@@ -104,4 +119,6 @@ public class Profile_Activity extends AppCompatActivity {
             }
         });
     }
+
+
 }

@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@android:color/white"
+    tools:context=".supportActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/Toolbar_contactUs_Layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/Toolbar_contactUs"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
+
+            <ImageView
+                android:id="@+id/back_Btn_ImgView_contactUs"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"
+                android:src="@drawable/ic_baseline_arrow_back_ios_24"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@+id/back_Btn_ImgView_contactUs"
+                android:text="Contact Us"
+                android:textColor="@android:color/white"
+                android:gravity="center"
+                android:layout_marginLeft="25dp"
+                android:textSize="19sp"/>
+
+            <ImageView
+                android:id="@+id/test_Image_contactUS"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_headset_mic_24"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:alpha="0.5"
+                android:visibility="invisible"/>
+
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/Toolbar_contactUs_Layout">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:id="@+id/app_Logo__contactUs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white">
+
+                <ImageView
+                    android:id="@+id/app_Logo"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/lg1" />
+
+                <TextView
+                    android:id="@+id/logo_Text"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/app_Logo"
+                    android:layout_centerHorizontal="true"
+                    android:fontFamily="@font/graduate"
+                    android:gravity="center"
+                    android:text="The Herbal Shoppe"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/emoji1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/app_Logo__contactUs"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:text="✔"
+                android:textColor="#2DCC24"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/txt_1_contactUs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/app_Logo__contactUs"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="3dp"
+                android:layout_toRightOf="@+id/emoji1"
+                android:fontFamily="sans-serif-medium"
+                android:text="At Herbal shoppe we only sell the authentic and pure herbal products"
+                android:textColor="#2F4F4F"
+                android:textSize="18sp" />
+            <TextView
+                android:id="@+id/emoji2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_1_contactUs"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:text="✔"
+                android:textColor="#2DCC24"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/txt_2_contactUs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_1_contactUs"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="2dp"
+                android:layout_toRightOf="@+id/emoji1"
+                android:fontFamily="sans-serif-medium"
+                android:text="Every product is made under great observation and by professionals with expertise."
+                android:textColor="#2F4F4F"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/emoji3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_2_contactUs"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:text="✔"
+                android:textColor="#2DCC24"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/txt_3_contactUs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_2_contactUs"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/emoji1"
+                android:fontFamily="sans-serif-medium"
+                android:text="We use special raw material imported from different countries including Africa, Iran, USA to ensure the quality."
+                android:textColor="#2F4F4F"
+                android:textSize="18sp" />
+            <TextView
+                android:id="@+id/emoji4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_3_contactUs"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:text="✔"
+                android:textColor="#2DCC24"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/txt_4_contactUs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_3_contactUs"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="2dp"
+                android:layout_toRightOf="@+id/emoji1"
+                android:fontFamily="sans-serif-medium"
+                android:text="Every product is made under special observation and only by professionals with expertise."
+                android:textColor="#2F4F4F"
+                android:textSize="18sp" />
+            <TextView
+                android:id="@+id/emoji5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_4_contactUs"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:text="✔"
+                android:textColor="#2DCC24"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/txt_5_contactUs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_4_contactUs"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/emoji1"
+                android:fontFamily="sans-serif-medium"
+                android:text="All the product rates in the application are subject to a unit gram, since 3 kg of raw material produces 1 gram of its extract."
+                android:textColor="#2F4F4F"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/emoji6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_5_contactUs"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:text="💡"
+                android:textColor="#2DCC24"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/txt_6_contactUs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_5_contactUs"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/emoji1"
+                android:fontFamily="sans-serif-medium"
+                android:text="Only order on pharmaceutical prescription.\nAnd we are not responsible in any case, Order at your own risk."
+                android:textColor="#2F4F4F"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/emoji7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_6_contactUs"
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="10dp"
+                android:text="💡"
+                android:visibility="invisible"
+                android:textColor="#2DCC24"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/contactText_contactView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Contact Us :"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginTop="13dp"
+                android:layout_below="@+id/txt_6_contactUs"
+                android:layout_toRightOf="@+id/emoji7"/>
+
+            <LinearLayout
+                android:id="@+id/linearLayout2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_below="@+id/contactText_contactView"
+                android:layout_marginTop="10sp">
+
+                <RelativeLayout
+                    android:id="@+id/call_Btn_ContctUs"
+                    android:layout_width="0dp"
+                    android:layout_height="130dp"
+                    android:layout_weight="1"
+                    android:layout_gravity="left">
+
+                    <ImageView
+                        android:id="@+id/call_Symbol"
+                        android:layout_height="90dp"
+                        android:layout_width="match_parent"
+                        android:src="@drawable/call_symbol"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/call_Symbol"
+                        android:gravity="center"
+                        android:text="Call"
+                        android:textSize="18sp"
+                        android:layout_centerHorizontal="true"
+                        android:textColor="@android:color/black"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/whatsApp_Btn_ContctUs"
+                    android:layout_width="0dp"
+                    android:layout_height="130dp"
+                    android:layout_weight="1"
+                    android:layout_gravity="left">
+
+                    <ImageView
+                        android:id="@+id/whatsApp_Symbol"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:src="@drawable/whatsapp_symbol" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/whatsApp_Symbol"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:text="whatsApp"
+                        android:textSize="18sp"
+                        android:layout_centerHorizontal="true"
+                        android:textColor="@android:color/black"/>
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/email_Btn_ContctUs"
+                    android:layout_width="0dp"
+                    android:layout_height="130dp"
+                    android:layout_weight="1"
+                    android:layout_gravity="left">
+
+                    <ImageView
+                        android:id="@+id/email_Symbol"
+                        android:layout_height="90dp"
+                        android:layout_width="match_parent"
+                        android:src="@drawable/email_symbol"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/email_Symbol"
+                        android:gravity="center"
+                        android:text="email"
+                        android:textSize="18sp"
+                        android:layout_centerHorizontal="true"
+                        android:textColor="@android:color/black"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+
+
+
+</RelativeLayout>

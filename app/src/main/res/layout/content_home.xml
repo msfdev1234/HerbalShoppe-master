@@ -10,52 +10,51 @@
 
     <LinearLayout
         android:id="@+id/searchViewLinrLayout"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_alignParentTop="true"
         android:layout_height="50dp"
+        android:layout_alignParentTop="true"
         android:background="@color/colorPrimaryDark"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:paddingLeft="8dp"
-        android:paddingRight="8dp"
         android:paddingTop="4dp"
-        android:paddingBottom="4dp"
-        android:gravity="center_vertical">
+        android:paddingRight="8dp"
+        android:paddingBottom="4dp">
 
 
         <EditText
             android:id="@+id/edt_search_text"
             android:layout_width="0dp"
-            android:layout_marginLeft="15dp"
             android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
             android:layout_weight="1"
-            android:inputType="text"
-            android:imeOptions="actionSearch"
+            android:background="@drawable/input_design"
+            android:backgroundTint="@android:color/white"
             android:hint="Search Product"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:lines="1"
             android:paddingLeft="10dp"
             android:paddingRight="8dp"
-            android:lines="1"
-            android:textColorHint="#D3D3D3"
             android:textColor="@android:color/black"
-            android:textSize="16sp"
-            android:backgroundTint="@android:color/white"
-            android:background="@drawable/input_design"/>
+            android:textColorHint="#D3D3D3"
+            android:textSize="16sp" />
 
         <ImageView
             android:id="@+id/P_search_Btn"
             android:layout_width="30dp"
             android:layout_height="match_parent"
-            android:adjustViewBounds="true"
-            android:src="@drawable/ic_search"
             android:layout_marginLeft="15dp"
-            />
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_search" />
 
         <ImageView
             android:id="@+id/iv_clear_text"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:adjustViewBounds="true"
-            android:visibility="gone"
-            android:src="@drawable/ic_cross" />
+            android:src="@drawable/ic_cross"
+            android:visibility="gone" />
 
     </LinearLayout>
 

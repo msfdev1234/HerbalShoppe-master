@@ -1,17 +1,22 @@
 package com.madmobiledevs.ecommerce;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -37,8 +42,12 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.madmobiledevs.ecommerce.LoadingDialougs.LoadingDialog;
 import com.madmobiledevs.ecommerce.Model.Products;
 import com.madmobiledevs.ecommerce.Prevalent.Prevalent;
@@ -98,7 +107,6 @@ public class Home_Panel_Fragment extends Fragment {
         toggle.syncState();
 
 
-
         ProductRef = FirebaseDatabase.getInstance().getReference().child("Products");
         Paper.init(getActivity());
         if (!Paper.book().contains(Prevalent.UserPhoneKey)) {
@@ -111,31 +119,65 @@ public class Home_Panel_Fragment extends Fragment {
         layoutManager= new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+                Fragment selectedFragment = null;
+                Activity selectedActivity = null;
+
                 switch (menuItem.getItemId()){
 
-                    case R.id.nav_home:
-                        Toast.makeText(getActivity(), "a", Toast.LENGTH_SHORT).show();
+                    case R.id.nav_home_side:
                         drawerLayout.closeDrawer(GravityCompat.START);
                         break;
-                    case R.id.nav_Profile:
-                        Toast.makeText(getActivity(), "b", Toast.LENGTH_SHORT).show();
+                    case R.id.nav_Basket_side:
                         drawerLayout.closeDrawer(GravityCompat.START);
+                        if(!(Paper.book().read(Prevalent.UserPhoneKey).equals(""))){
+                            selectedActivity = new CartActivity();
+                        }
+                        else {
+
+                            selectedActivity = new MainActivity();
+                        }
                         break;
+                    case R.id.nav_Profile_side:
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        if (Paper.book().read(Prevalent.UserPhoneKey)!=""){
+                            selectedActivity = new Profile_Activity();
+                        } else {
+                            selectedActivity = new MainActivity();
+                        }
+
+                        break;
+                    case R.id.nav_Support_side:
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        selectedActivity= new supportActivity();
+
+                        break;
+
+
+                }
+
+               if (selectedActivity!=null){
+                    Intent intent = new Intent(getActivity(), selectedActivity.getClass());
+                    startActivity(intent);
                 }
 
                 return true;
             }
         });
 
+
         return v;
     }
+
 
     @Override
     public void onStart() {
         super.onStart();
+
 
         showAllProducts();
 
@@ -181,7 +223,7 @@ public class Home_Panel_Fragment extends Fragment {
 
                         ptype=products.getPtype();
 
-                        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.units,android.R.layout.simple_spinner_item);
+                        final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.units,android.R.layout.simple_spinner_item);
                         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
                         int mrp = (int)(Integer.parseInt(products.getPrice())*(50.0f/100.0f));
@@ -209,19 +251,53 @@ public class Home_Panel_Fragment extends Fragment {
 
                         }
 
-                      //  Picasso.get().load(products.getImage()).into(productViewHolder.imageView);
+
+                            //  Picasso.get().load(products.getImage()).into(productViewHolder.imageView);
 
                         productViewHolder.add_Button.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                if (TextUtils.isEmpty(productViewHolder.quantity_input.getText())){
-                                    Toast.makeText(getActivity(), "Please input quantity", Toast.LENGTH_SHORT).show();
-                                    productViewHolder.quantity_input.setFocusableInTouchMode(true);
-                                    productViewHolder.quantity_input.requestFocus();
 
+                                if(!(Paper.book().read(Prevalent.UserPhoneKey).equals(""))){
+                                    if (TextUtils.isEmpty(productViewHolder.quantity_input.getText())){
+                                        Toast.makeText(getActivity(), "Please input quantity", Toast.LENGTH_SHORT).show();
+                                        productViewHolder.quantity_input.setFocusableInTouchMode(true);
+                                        productViewHolder.quantity_input.requestFocus();
+
+                                    } else {
+                                        loadingBar.setTitle("Please wait..");
+                                        loadingBar.setMessage("Processing Your request");
+                                        loadingBar.setCanceledOnTouchOutside(false);
+                                        loadingBar.show();
+
+                                        String quantity_grams;
+
+                                        if(productViewHolder.spinner.getSelectedItem().toString().equals("gm")){
+                                            quantity_grams = productViewHolder.quantity_input.getText().toString();
+                                        } else {
+
+
+                                            quantity_grams = Integer.toString(Integer.parseInt(productViewHolder.quantity_input.getText().toString())*1000);
+
+                                        }
+
+                                        addToBasket(Paper.book().read(Prevalent.UserPhoneKey).toString()
+                                                ,products.getPid()
+                                                ,products.getPname()
+                                                ,products.getPrice()
+                                                ,Integer.toString(Integer.parseInt(products.getPrice())*Integer.parseInt(quantity_grams))
+                                                ,quantity_grams
+                                                ,productViewHolder.txtMrpPrice.getText().toString()
+                                                ,products.getImage()
+                                                ,productViewHolder.spinner.getSelectedItem().toString()
+                                                ,productViewHolder.quantity_input.getText().toString());
+
+                                    }
                                 } else {
-                                    Toast.makeText(getActivity(), "yes", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(getActivity(), MainActivity.class);
+                                    startActivity(intent);
                                 }
+
 
                             }
                         });
@@ -256,7 +332,7 @@ public class Home_Panel_Fragment extends Fragment {
 
                         ptype=products.getPtype();
 
-                        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.units,android.R.layout.simple_spinner_item);
+                        final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.units,android.R.layout.simple_spinner_item);
                         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
                         int mrp = (int)(Integer.parseInt(products.getPrice())*(50.0f/100.0f));
@@ -264,6 +340,8 @@ public class Home_Panel_Fragment extends Fragment {
                         productViewHolder.txtMrpPrice.setPaintFlags( productViewHolder.txtMrpPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
                         productViewHolder.txtMrpPrice.setText(Integer.toString(mrp));
+
+
 
                         productViewHolder.spinner.setAdapter(adapter);
 
@@ -281,23 +359,54 @@ public class Home_Panel_Fragment extends Fragment {
 
                         if ( Pattern.compile(Pattern.quote("ras"), Pattern.CASE_INSENSITIVE).matcher(products.getPname()).find()){
                             productViewHolder.imageView.setImageResource(R.drawable.liquid_image);
-                            loadingDialog.dismissDialog();
                         } else {
                             productViewHolder.imageView.setImageResource(R.drawable.raw_image);
-                            loadingDialog.dismissDialog();
+                        }
+                        loadingDialog.dismissDialog();
+
+                        if(!(Paper.book().read(Prevalent.UserPhoneKey).equals(""))) {
+
+                            DatabaseReference cartReference = FirebaseDatabase.getInstance().getReference()
+                                    .child("Cart")
+                                    .child(Paper.book().read(Prevalent.UserPhoneKey).toString());
+
+                            cartReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                    if (dataSnapshot.child(products.getPid()).exists()){
+                                        String quantity = dataSnapshot.child(products.getPid()).child("unit_quantity").getValue().toString();
+                                        String units = dataSnapshot.child(products.getPid()).child("units").getValue().toString();
+
+
+                                        productViewHolder.quantity_input.setText(quantity);
+                                        int spinnerPosition = adapter.getPosition(units);
+
+                                        productViewHolder.spinner.setSelection(spinnerPosition);
+
+
+                                    } else {
+                                        productViewHolder.quantity_input.setText("");
+                                        productViewHolder.spinner.setSelection(0);
+                                    }
+
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+
+
+                        } else {
+
+                            productViewHolder.quantity_input.setText("");
+                            productViewHolder.spinner.setSelection(0);
+
                         }
 
-//                        Picasso.get().load(products.getImage()).into(productViewHolder.imageView, new Callback() {
-//                            @Override
-//                            public void onSuccess() {
-//                                loadingDialog.dismissDialog();
-//                            }
-//
-//                            @Override
-//                            public void onError(Exception e) {
-//
-//                            }
-//                        });
+
 
                         productViewHolder.add_Button.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -347,15 +456,6 @@ public class Home_Panel_Fragment extends Fragment {
                             }
                         });
 
-//                        productViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View v) {
-//
-//                                Intent intent= new Intent(HomeActivity.this,Product_Details_Activity.class);
-//                                intent.putExtra("pid",products.getPid());
-//                                startActivity(intent);
-//                            }
-//                        });
                     }
 
                     @NonNull
@@ -410,6 +510,12 @@ public class Home_Panel_Fragment extends Fragment {
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             loadingBar.dismiss();
+                            View view = getActivity().getCurrentFocus();
+                            if (view != null) {
+                                InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                            }
+
                             Toast.makeText(getActivity(), "Added to CartList", Toast.LENGTH_SHORT).show();
                         }
                     }
